@@ -1,20 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { View, StatusBar, TouchableWithoutFeedback } from 'react-native';
+import Header from './Header'; // Adjust the path
+import Main from './Main'; // Adjust the path
+import Footer from './Footer'; // Adjust the path
+// import styles from './style';
+import { Text, TouchableOpacity,  Modal } from 'react-native';
+import { BlurView } from 'react-native';
+// import styles from './style';
 
-export default function App() {
+function App() {
+ 
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <View  style={{backgroundColor:'black',height:'100%'}} >
+    <Header/>
+      <Main />
+      <Footer />
+
       <StatusBar style="auto" />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
