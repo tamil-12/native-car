@@ -1,5 +1,6 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Pressable, TextInput } from 'react-native';
+import Slider from '@react-native-community/slider'
 
 const styles = StyleSheet.create({
   main: {
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   number:{
-    fontSize:35
+    fontSize:30
   },
   logo:{
     fontSize:20,
@@ -112,58 +113,160 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
   },
+  rangeInput: {
+    marginBottom: 20,
+  },
+  rangeLabel: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: 'white',
+  },
+  rangeSlider: {
+    width: '100%',
+  },
+  rangeValue: {
+    fontSize: 16,
+    color: 'white',
+    textAlign: 'center',
+  },
 });
 
 const MainComponent = () => {
+  const [temp,setTemp]=useState(0);
+  const [mil,setMil]=useState(0);
+  const [bat,setBat]=useState(0);
+  const [color,setColor]=useState('green');
+  const [status,setStatus]=useState('Good');
   return (
     <ScrollView style={styles.main}>
-      <View style={styles.section}>
-        <View style={styles.card1}>
-          <Text style={[styles.cardTitle,{marginBottom:30}]}>Autonomous car</Text>
-          <Text style={styles.cardTitle}>POSRCHE</Text>
-          <Text style={[styles.cardDescription,{color:'blue'}]}>
-            <Text style={{ fontSize: 24 }}>⚡</Text> Electric car
-          </Text>
-        </View>
-        <Image
-          source={require('./img/home.png')}
-          style={styles.image}
-        />
-        <View style={styles.card2} >
+    <View style={styles.section}>
+      <View style={styles.card1}>
+        <Text style={[styles.cardTitle,{marginBottom:30}]}>Autonomous car</Text>
+        <Text style={styles.cardTitle}>POSRCHE</Text>
+        <Text style={[styles.cardDescription,{color:'blue'}]}>
+          <Text style={{ fontSize: 24 }}>⚡</Text> Electric car
+        </Text>
+      </View>
+      <Image
+        source={require('./img/home.png')}
+        style={styles.image}
+      />
+
+<Text style={
+  {
+    color:'white',
+    textAlign:'center'
+    ,marginBottom:6
+  }
+} >Battery Condition </Text>
+      <View style={{
+        width:80,
+        height:30,
+        borderColor:'white',
+        borderWidth:1,
+        marginLeft:120,
+        backgroundColor:color
+        ,alignItems:'center',
+        justifyContent:'center',
+        borderRadius:10
+      }} >
+        
+      <Text >{status}</Text>
+      </View>
+      <View style={styles.card2}>
         <View style={styles.card}>
           <View style={styles.cardTitle}>
             <Text style={styles.logo}>🌡</Text>
-            </View>
-            <View>
-            <Text style={[styles.number,{color:'white' }]}>24°C</Text>
-            </View>
-            <View>
-          <Text style={styles.Desc}>TEMPERATURE</Text>
+          </View>
+          <View>
+            <Text style={[styles.number,{color:'white'}]}>{temp}°C</Text>
+          </View>
+          <View>
+            <Text style={styles.Desc}>TEMPERATURE</Text>
           </View>
         </View>
         <View style={styles.card}>
           <View style={styles.cardTitle}>
             <Text style={styles.logo}>⚪</Text>
-            </View>
-            <View>
-            <Text style={[styles.number,{color:'white' }]}>873</Text>
-            </View>
-            <View>
-          <Text style={styles.Desc}>MILEAGE</Text>
+          </View>
+          <View>
+            <Text style={[styles.number,{color:'white'}]}>{mil}</Text>
+          </View>
+          <View>
+            <Text style={styles.Desc}>MILEAGE</Text>
           </View>
         </View>
         <View style={styles.card}>
           <View style={styles.cardTitle}>
             <Text style={styles.logo}>⚡</Text>
-            </View>
-            <View>
-            <Text style={[styles.number,{color:'white' }]}>94%</Text>
-            </View>
-            <View>
-          <Text style={styles.Desc}>BATTERY</Text>
+          </View>
+          <View>
+            <Text style={[styles.number,{color:'white'}]}>{bat}%</Text>
+          </View>
+          <View>
+            <Text style={styles.Desc}>BATTERY</Text>
           </View>
         </View>
         
+      </View>
+      <View style={styles.rangeInput}>
+          <Text style={styles.rangeLabel}>Temperature</Text>
+          <Slider
+            style={styles.rangeSlider}
+            value={temp}
+            minimumValue={0}
+            maximumValue={100}
+            step={1}
+            onValueChange={(value) => {
+
+              setTemp(value)
+              
+            
+            }}
+          />
+          {/* <Text style={styles.rangeValue}>{temp}°C</Text> */}
+        </View>
+        <View style={styles.rangeInput}>
+          <Text style={styles.rangeLabel}>Mileage</Text>
+          <Slider
+            style={styles.rangeSlider}
+            value={mil}
+            minimumValue={0}
+            maximumValue={1000}
+            step={1}
+            onValueChange={(value) => setMil(value)}
+          />
+          {/* <Text style={styles.rangeValue}>{mil}</Text> */}
+        </View>
+        <View style={styles.rangeInput}>
+          <Text style={styles.rangeLabel}>Battery</Text>
+          <Slider
+            style={styles.rangeSlider}
+            value={bat}
+            minimumValue={0}
+            maximumValue={100}
+            step={1}
+            onValueChange={(value) => {
+              setBat(value)
+              if(value<=25){
+                setColor('red')
+                setStatus('Low')
+              }else if(value>25 && value<=75){
+                setColor('orange')
+                setStatus('Normal')
+              }
+              else if(value==100){
+                setColor('green')
+                setStatus('Full')
+              }
+              
+              else{
+                setColor('green')
+                setStatus('Good')
+              }}}
+          />
+          {/* <Text style={styles.rangeValue}>{bat}%</Text> */}
         </View>
         <Pressable onPress={() => alert('Started')} >
         <View  style={styles.buttonWrapper}>

@@ -62,8 +62,8 @@ const Header = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.nav_item}>
-            <TouchableOpacity onPress={() => alert('Features Clicked')}>
-              <Text style={styles.nav__link}>Featured</Text>
+            <TouchableOpacity onPress={() => alert('Map Clicked')}>
+              <Text style={styles.nav__link}>Map</Text>
             </TouchableOpacity>
           </View>
         </View>
